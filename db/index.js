@@ -60,25 +60,27 @@ class DB {
             INSERT INTO 
                 role 
             SET ?
-            `, role
-        
+            `, role  
         )
     }
 
     addDepartment(department) {
         return this.connection.query(
             `
-            
-            `
+            INSERT INTO 
+                department
+            SET ?
+        `, department
         )
     }
 
     addEmployee(employee){
-        return this.connection.query)
+        return this.connection.query(
         `
-        
-        `
-    }
+        INSERT INTO
+            employee
+        SET`, employee
+        )}
 }
 
 module.exports = new DB(connection)

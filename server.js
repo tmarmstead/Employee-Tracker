@@ -1,4 +1,5 @@
 const inquirer = require('inquirer');
+const { addDepartment } = require('./db');
 const db = require('./db');
 require('console.table');
 
@@ -11,16 +12,30 @@ function mainMenu(){
             message: 'What action would you like to perform?',
             choices: [
                 'viewAllDepartments',
-                'viewAllRoles', 
-                'addRole'
+                'viewAllRoles',
+                'viewAllEmployees',
+                'addDepartment',
+                'addRole',
+                'addEmployee',
+                'updateEmployeeRoles'
             ]
         }
     ]).then(res => {
         switch(res.choice) {
             case 'viewAllDepartments':
                 return viewAllDepartments();
+            case 'viewAllRoles':
+                return viewAllRoles();
+            case 'viewAllEmployees':
+                return viewAllEmployees();
+            case 'addDepartment':
+                    return addDepartment();
             case 'addRole':
-                return addRole();
+                    return addRole();
+            case 'addEmployee':
+                    return addEmployee();
+            case 'updateEmployeeRoles':
+                    return updateEmployeeRoles();
         }
     })
 }
@@ -30,6 +45,19 @@ async function viewAllDepartments() {
     console.table(departments);
     mainMenu();
 }
+async function viewAllRoles() {
+    const roles = await db.viewAllRoles();
+    console.table(roles);
+    mainMenu();
+}
+
+async function viewAllEmployees() {
+    const employees = await db.viewAllEmployees();
+    console.table(employees);
+    mainMenu();
+}
+
+
 
 async function addRole() {
     const departments = await db.viewAllDepartments();
