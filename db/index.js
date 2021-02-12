@@ -87,6 +87,16 @@ class DB {
         SET ?
         `, employee
         )}
+
+    updateEmployeeRoles(employee){
+        return this.connection.query(
+        `
+        INSERT INTO 
+            employee (role_id, role.title)
+        SET ?
+        `, employee
+        )
+    }
 }
 
 module.exports = new DB(connection);

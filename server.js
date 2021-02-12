@@ -111,33 +111,61 @@ async function addRole() {
 
 
 async function addEmployee() {
-    const roles = await db.viewAllRoles();
-    const roleChoices = roles.map(({ id, title }) => ({
-        title: title,
-        value: title
+    // const roles = await db.viewAllRoles();
+    // const roleChoices = roles.map(({ id, title }) => ({
+    //     name: title,
+    //     value: id
     }));
     const employee = await inquirer.prompt([
         {
             type: 'input',
-            name: 'first_name',
+            name: 'pizza',
             message: 'What is the employees First Name?'
         },
         {
             type: 'input',
             name: 'last_name',
-            message: 'what is the employees Last Name?'
+            message: 'What is the employees Last Name?'
         },
         {
-            type: 'list',
-            name: 'fk_role',
-            message: 'What is your role?',
+            type: 'rawlist',
+            name: 'role_id',
+            message: 'What is the employees role?',
             choices: roleChoices
         }
     ]);
     await db.addRole(employee);
-    console.log(`Added ${employee.title} to the database`);
+    console.log(`Added ${employee} to the database`);
     mainMenu();
 }
+
+// async function updateEmployeeRoles(){
+//     const employees = await db.viewAllEmployees();
+//     const employeeChoices = employees.map(({id, first_name}))
+//     const roles = await db.viewAllRoles();
+//     const roleChoices = roles.map(({ id, title }) => ({
+//         first_name: first_name,
+//         value: first_name
+//     }));
+//     const newEmployeeRole = await inquirer.prompt([
+//         {
+//             type: 'rawlist',
+//             name: 'employee',
+//             message: 'Which employee would you like to update?',
+//             choices: employeeChoices
+//         },
+//         {
+//             type: 'rawlist',
+//             name: 'role_id',
+//             message: 'What is the employees role?',
+//             choices: roleChoices
+//         }
+//     ]);
+//     await db.addRole(newEmployeeRole);
+//     console.log(`Added ${newEmployeeRole} to the database`);
+//     mainMenu();
+// }
+
 
 // Functions for Updating Employee Roles
 
