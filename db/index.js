@@ -45,11 +45,16 @@ class DB {
                 employee.id,
                 employee.first_name,
                 employee.last_name,
-                employee.role_id
-            FROM 
-                employee
-            ORDER BY
-                employee.id
+                role.title,
+                department.name,
+                role.salary, 
+                employee.manager_id
+            FROM employee
+            JOIN role 
+            ON employee.role_id = role.id
+            JOIN department 
+            ON role.department_id = department.id
+            ORDER BY employee.id
             `
         )
     }
@@ -79,8 +84,9 @@ class DB {
         `
         INSERT INTO
             employee
-        SET`, employee
+        SET ?
+        `, employee
         )}
 }
 
-module.exports = new DB(connection)
+module.exports = new DB(connection);
