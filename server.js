@@ -5,10 +5,10 @@ const db = require('./db');
 require('console.table');
 
 // Main Menu Inquirer Prompted Question
-function mainMenu(){
+function mainMenu() {
     inquirer.prompt([
         {
-            type:'rawlist',
+            type: 'rawlist',
             name: 'choice',
             message: 'What action would you like to perform?',
             choices: [
@@ -22,8 +22,8 @@ function mainMenu(){
             ]
         }
     ]).then(res => {
-// Switch Statemet to execute functions based on commandline choices
-        switch(res.choice) {
+        // Switch Statemet to execute functions based on commandline choices
+        switch (res.choice) {
             case 'viewAllDepartments':
                 return viewAllDepartments();
             case 'viewAllRoles':
@@ -31,13 +31,13 @@ function mainMenu(){
             case 'viewAllEmployees':
                 return viewAllEmployees();
             case 'addDepartment':
-                    return addDepartment();
+                return addDepartment();
             case 'addRole':
-                    return addRole();
+                return addRole();
             case 'addEmployee':
-                    return addEmployee();
+                return addEmployee();
             case 'updateEmployeeRoles':
-                    return updateEmployeeRoles();
+                return updateEmployeeRoles();
         }
     })
 }
@@ -63,17 +63,12 @@ async function viewAllEmployees() {
 // Functions for adding each category (depts, roles, employees)
 async function addDepartment() {
     const departments = await db.viewAllDepartments();
-    // const departmentChoices = departments.map(({ id, name }) => ({
-    //     name: name,
-    //     value: id}) )
-//    ;
     const department = await inquirer.prompt([
         {
             type: 'input',
             name: 'name',
             message: 'What is the name of the Department?'
         },
-        
     ]);
     await db.addDepartment(department);
     console.log(`Added ${department.name} to the database`);
@@ -91,7 +86,7 @@ async function addRole() {
             type: 'input',
             name: 'title',
             message: 'What is the name of the role?'
-        }, 
+        },
         {
             type: 'input',
             name: 'salary',
@@ -101,7 +96,7 @@ async function addRole() {
             type: 'list',
             name: 'department_id',
             message: 'To which department does this role belong?',
-            choices: departmentChoices 
+            choices: departmentChoices
         }
     ]);
     await db.addRole(role);
@@ -111,15 +106,15 @@ async function addRole() {
 
 
 async function addEmployee() {
-    // const roles = await db.viewAllRoles();
-    // const roleChoices = roles.map(({ id, title }) => ({
-    //     name: title,
-    //     value: id
+    const roles = await db.viewAllRoles();
+    const roleChoices = roles.map(({ id, title }) => ({
+        name: title,
+        value: id
     }));
     const employee = await inquirer.prompt([
         {
             type: 'input',
-            name: 'pizza',
+            name: 'first_name',
             message: 'What is the employees First Name?'
         },
         {
@@ -134,40 +129,41 @@ async function addEmployee() {
             choices: roleChoices
         }
     ]);
-    await db.addRole(employee);
-    console.log(`Added ${employee} to the database`);
+    console.log(employee);
+    await db.addEmployee(employee);
+    console.log(`Added ${employee.first_name} ${employee.last_name} to the database`);
     mainMenu();
 }
 
-// async function updateEmployeeRoles(){
-//     const employees = await db.viewAllEmployees();
-//     const employeeChoices = employees.map(({id, first_name}))
-//     const roles = await db.viewAllRoles();
-//     const roleChoices = roles.map(({ id, title }) => ({
-//         first_name: first_name,
-//         value: first_name
-//     }));
-//     const newEmployeeRole = await inquirer.prompt([
-//         {
-//             type: 'rawlist',
-//             name: 'employee',
-//             message: 'Which employee would you like to update?',
-//             choices: employeeChoices
-//         },
-//         {
-//             type: 'rawlist',
-//             name: 'role_id',
-//             message: 'What is the employees role?',
-//             choices: roleChoices
-//         }
-//     ]);
-//     await db.addRole(newEmployeeRole);
-//     console.log(`Added ${newEmployeeRole} to the database`);
-//     mainMenu();
-// }
-
-
-// Functions for Updating Employee Roles
-
+// Function for Updating Employee Roles
+async function updateEmployeeRoles() {
+    const employees = await db.viewAllEmployees();
+    const employeeChoices = employees.map(({ id, first_name }) => ({
+        id: id,
+        value: first_name
+    }))
+    const roles = await db.viewAllRoles();
+    const roleChoices = roles.map(({ id, title }) => ({
+        name: title,
+        value: title
+    }));
+    const newEmployeeRole = await inquirer.prompt([
+        {
+            type: 'rawlist',
+            name: 'employee',
+            message: 'Which employee would you like to update?',
+            choices: employeeChoices
+        },
+        {
+            type: 'rawlist',
+            name: 'role_id',
+            message: 'What is the employees role?',
+            choices: roleChoices
+        }
+    ]);
+    await db.updateEmployeeRoles(newEmployeeRole);
+    console.log(`Added ${newEmployeeRole} to the database`);
+    mainMenu();
+}
 
 mainMenu();

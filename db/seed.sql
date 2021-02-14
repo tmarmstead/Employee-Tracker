@@ -23,14 +23,14 @@ VALUES
 INSERT INTO employee
     (first_name, last_name, role_id, manager_id)
 VALUES  
-    ('Daenerys', 'Targaryen', 1, NULL),
-    ('Rhaehgar', 'Targaryen', 2, 1),
-    ('George', 'Targaryen', 3, 1),
-    ('Tywin', 'Lannister', 4, NULL),
-    ('Joanna', 'Lannister', 5, 4),
-    ('Jamie', 'Lannister', 6, 4),
-    ('Ed', 'Stark', 7, NULL),
-    ('Sansa', 'Stark', 8, 7),
-    ('Jon', 'Snow', 9, 7);
+    ('Rachel', 'Riley', 1, NULL),
+    ('Bim', 'Smith', 2, 1),
+    ('Eugene', 'Straus', 3, 1),
+    ('Leslie', 'Rose', 4, NULL),
+    ('Michael', 'Lawson', 5, 4),
+    ('Diane', 'Shaw', 6, 4),
+    ('Ed', 'Dunham', 7, NULL),
+    ('Sierra', 'Jones', 8, 7),
+    ('Luke', 'Raines', 9, 7);
     
 

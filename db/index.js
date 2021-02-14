@@ -88,15 +88,16 @@ class DB {
         `, employee
         )}
 
-    updateEmployeeRoles(employee){
+    updateEmployeeRoles(newEmployeeRole){
         return this.connection.query(
         `
-        INSERT INTO 
-            employee (role_id, role.title)
+        UPDATE 
+            employee 
         SET ?
-        `, employee
+        `, newEmployeeRole
         )
     }
+
 }
 
 module.exports = new DB(connection);
